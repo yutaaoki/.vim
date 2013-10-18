@@ -1,4 +1,4 @@
 .vim
 ====
 
-my vim setting
+It's just my vim setting.
