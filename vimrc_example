@@ -11,3 +11,4 @@ syntax on
 filetype on
 filetype plugin indent on
 
+let g:pymode_lint_ignore="e501,e302"
