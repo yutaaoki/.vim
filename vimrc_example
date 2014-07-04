@@ -1,14 +1,14 @@
 filetype off
-"execute pathogen#incubate()
 execute pathogen#infect()
 execute pathogen#helptags()
 set expandtab
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set number
 set autoindent
 syntax on
 filetype on
 filetype plugin indent on
 
-let g:pymode_lint_ignore="e501,e302"
+set tags=/root/dev/mymenu-tester/tags
+let g:pymode_lint_ignore="E501,E302"
