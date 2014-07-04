@@ -10,5 +10,4 @@ syntax on
 filetype on
 filetype plugin indent on
 
-set tags=/root/dev/mymenu-tester/tags
 let g:pymode_lint_ignore="E501,E302"
