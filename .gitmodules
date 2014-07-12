@@ -1,0 +1,3 @@
+[submodule "bundle/vim-pasta"]
+	path = bundle/vim-pasta
+	url = https://github.com/sickill/vim-pasta.git
