@@ -4,28 +4,55 @@
 .. image:: https://travis-ci.org/klen/python-mode.png?branch=develop
     :target: https://travis-ci.org/klen/python-mode
 
-Python-mode is a vim plugin that allows you to use the pylint_, rope_, pydoc_, pyflakes_, pep8_, mccabe_ libraries in vim to provide
-features like python code looking for bugs, refactoring and some other useful things.
+-----
 
-This plugin allow you create python code in vim very easily.
-There is no need to install the pylint_, rope_ or any used python library on your system.
+*The project needs contributors*
 
-- Python objects and motion (]], 3[[, ]]M, vaC, viM, daC, ciM, ...)
-- Folding of python code
+** Python-mode Slack Channel is here: https://python-mode.herokuapp.com/ **
+
+-----
+
+|
+| Src:  https://github.com/klen/python-mode
+| Homepage: https://klen.github.io/python-mode/
+| Docs: https://github.com/klen/python-mode/blob/develop/doc/pymode.txt
+|
+
+Python-mode is a vim plugin that helps you to create python code very quickly
+by utilizing libraries including
+`pylint`_, `rope`_, pydoc_, `pyflakes`_, `pep8`_, `autopep8`_,
+`pep257`_ and `mccabe`_
+for features like static analysis, refactoring, folding, completion,
+documentation, and more.
+
+The plugin contains all you need to develop python applications in Vim.
+
+There is no need to install `pylint`_, `rope`_
+or any other `Python Libraries`_ on your system.
+
+- Support Python version 2.6+ and 3.2+
+- Syntax highlighting
 - Virtualenv support
-- Highlight syntax errors
-- Highlight and auto fix unused imports
-- Many linters (pylint_, pyflakes_, ...) that can be run simultaneously
-- Strong code completion
-- Code refactoring
-- Python documentation
-- Run python code
-- Go to definition
-- Powerful customization
+- Run python code (``<leader>r``)
+- Add/remove breakpoints (``<leader>b``)
+- Improved Python indentation
+- Python folding
+- Python motions and operators (``]]``, ``3[[``, ``]]M``, ``vaC``, ``viM``,
+  ``daC``, ``ciM``, ...)
+- Code checking  (pylint_, pyflakes_, pylama_, ...) that can be run
+  simultaneously (``:PymodeLint``)
+- Autofix PEP8 errors (``:PymodeLintAuto``)
+- Search in python documentation (``K``)
+- Code refactoring <rope refactoring library> (rope_)
+- Strong code completion (rope_)
+- Go to definition (``<C-c>g`` for `:RopeGotoDefinition`)
 - And more, more ...
 
-See (very old) screencast here: http://www.youtube.com/watch?v=67OZNp9Z0CQ (sorry for quality, this is my first screencast)
-Another old presentation here: http://www.youtube.com/watch?v=YhqsjUUHj6g
+See (very old) screencast here: http://www.youtube.com/watch?v=67OZNp9Z0CQ
+(sorry for quality, this is my first screencast) Another old presentation here:
+http://www.youtube.com/watch?v=YhqsjUUHj6g
+
+**To read python-mode documentation in Vim, see** ``:help pymode``
 
 
 .. contents::
@@ -34,24 +61,23 @@ Another old presentation here: http://www.youtube.com/watch?v=YhqsjUUHj6g
 Requirements
 ============
 
-- VIM >= 7.0 with python support
-  (also ``--with-features=big`` if you want use g:pymode_lint_signs)
-
+- VIM >= 7.3 (mostly features needed `+python` or `+python3` support)
+  (also ``--with-features=big`` if you want ``g:pymode_lint_signs``)
 
 
 How to install
 ==============
 
-
-Using pathogen_ (recomended)
+Using pathogen (recommended)
 ----------------------------
 ::
 
     % cd ~/.vim
     % mkdir -p bundle && cd bundle
-    % git clone git://github.com/klen/python-mode.git
+    % git clone https://github.com/klen/python-mode.git
 
-- Enable pathogen_ in your ``~/.vimrc``: ::
+- Enable `pathogen <https://github.com/tpope/vim-pathogen>`_
+  in your ``~/.vimrc``: ::
 
     " Pathogen load
     filetype off
@@ -67,7 +93,7 @@ Manually
 --------
 ::
 
-    % git clone git://github.com/klen/python-mode.git
+    % git clone https://github.com/klen/python-mode.git
     % cd python-mode
     % cp -R * ~/.vim
 
@@ -76,393 +102,87 @@ Then rebuild **helptags** in vim::
     :helptags ~/.vim/doc/
 
 
-.. note:: **filetype-plugin** (``:help filetype-plugin-on``) and **filetype-indent** (``:help filetype-indent-on``)
-    must be enabled for use python-mode.
+.. note:: **filetype-plugin**  (``:help filetype-plugin-on``) and
+   **filetype-indent** (``:help filetype-indent-on``)
+   must be enabled to use python-mode.
+
+
+Debian packages
+---------------
+|Repository URL: https://klen.github.io/python-mode/deb/
+
+Install with commands:
+
+::
+
+     add-apt-repository https://klen.github.io/python-mode/deb main
+     apt-get update
+     apt-get install vim-python-mode
+
+If you are getting the message: "The following signatures couldn't be verified because the public key is not available": ::
+
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B5DF65307000E266
+
+`vim-python-mode` using `vim-addons`, so after installation just enable
+`python-mode` with command: ::
+
+    vim-addons install python-mode
 
 
 Troubleshooting
 ===============
 
-If your python-mode dont work, open any python file and type command: ::
+If your python-mode doesn't work:
 
-    :call pymode#troubleshooting#Test()
+1. Load Vim with only python-mode enabled (use `debug.vim` from pymode): ::
 
-And fix warnings or copy output and send it to me (ex. with github issue).
+    vim -u <path_to_pymode>/debug.vim
 
+And try to repeat your case. If no error occurs, seems like problem isn't in the
+plugin.
 
-Settings
-========
+2. Type `:PymodeTroubleshooting`
 
-.. note:: Also you can see vim help. ``:help PythonModeOptions``
-
-To change this settings, edit your ``~/.vimrc``: ::
-
-    " Disable pylint checking every save
-    let g:pymode_lint_write = 0
-
-    " Set key 'R' for run python code
-    let g:pymode_run_key = 'R'
+And fix any warnings or copy the output and send it to me. (For example, by
+creating a `new github issue <https://github.com/klen/python-mode/issues/new>`_
+if one does not already exist for the problem).
 
 
-Loading the Plugin
-------------------
+Customization
+=============
 
-Default values: ::
+You can override the default key bindings by redefining them in your `.vimrc`, for example: ::
 
-    " Load the whole plugin
-    let g:pymode = 1
+    " Override go-to.definition key shortcut to Ctrl-]
+    let g:pymode_rope_goto_definition_bind = "<C-]>"
 
+    " Override run current python file key shortcut to Ctrl-Shift-e
+    let g:pymode_run_bind = "<C-S-e>"
 
-Show documentation
-------------------
-
-Default values: ::
-
-    " Load show documentation plugin
-    let g:pymode_doc = 1
-
-    " Key for show python documentation
-    let g:pymode_doc_key = 'K'
+    " Override view python doc key shortcut to Ctrl-Shift-d
+    let g:pymode_doc_bind = "<C-S-d>"
 
 
-Run python code
+Frequent Problems
+=================
+
+Read this section before opening an issue on the tracker.
+
+Python 3 Syntax
 ---------------
 
-Default values: ::
+By default python-mode uses python 2 syntax checking. To enable python 3
+syntax checking (e.g. for async) add::
 
-    " Load run code plugin
-    let g:pymode_run = 1
+    let g:pymode_python = 'python3'
 
-    " Key for run python code
-    let g:pymode_run_key = '<leader>r'
+To your vimrc or exrc file
 
 
-Code checking
--------------
+Documentation
+=============
 
-Default values: ::
-
-    " Load pylint code plugin
-    let g:pymode_lint = 1
-
-    " Switch pylint, pyflakes, pep8, mccabe code-checkers
-    " Can have multiply values "pep8,pyflakes,mcccabe"
-    " Choices are pyflakes, pep8, mccabe, pylint, pep257
-    let g:pymode_lint_checker = "pyflakes,pep8,mccabe"
-
-    " Skip errors and warnings
-    " E.g. "E501,W002", "E2,W" (Skip all Warnings and Errors startswith E2) and etc
-    let g:pymode_lint_ignore = "E501"
-
-    " Select errors and warnings
-    " E.g. "E4,W"
-    let g:pymode_lint_select = ""
-
-    " Run linter on the fly
-    let g:pymode_lint_onfly = 0
-
-    " Pylint configuration file
-    " If file not found use 'pylintrc' from python-mode plugin directory
-    let g:pymode_lint_config = "$HOME/.pylintrc"
-
-    " Check code every save
-    let g:pymode_lint_write = 1
-
-    " Auto open cwindow if errors were found
-    let g:pymode_lint_cwindow = 1
-
-    " Show error message if cursor placed at the error line
-    let g:pymode_lint_message = 1
-
-    " Auto jump on first error
-    let g:pymode_lint_jump = 0
-
-    " Hold cursor in current window
-    " when quickfix is open
-    let g:pymode_lint_hold = 0
-
-    " Place error signs
-    let g:pymode_lint_signs = 1
-
-    " Maximum allowed mccabe complexity
-    let g:pymode_lint_mccabe_complexity = 8
-
-    " Minimal height of pylint error window
-    let g:pymode_lint_minheight = 3
-
-    " Maximal height of pylint error window
-    let g:pymode_lint_maxheight = 6
-
-    " Symbol definition
-    let g:pymode_lint_todo_symbol = 'WW'
-    let g:pymode_lint_comment_symbol = 'CC'
-    let g:pymode_lint_visual_symbol = 'RR'
-    let g:pymode_lint_error_symbol = 'EE'
-    let g:pymode_lint_info_symbol = 'II'
-    let g:pymode_lint_pyflakes_symbol = 'FF'
-
-.. note::
-    Pylint options (ex. disable messages) may be defined in ``$HOME/pylint.rc``
-    See pylint documentation: http://pylint-messages.wikidot.com/all-codes
-
-
-Rope refactoring library
-------------------------
-
-Default values: ::
-
-    " Load rope plugin
-    let g:pymode_rope = 1
-
-    " Map keys for autocompletion
-    let g:pymode_rope_autocomplete_map = '<C-Space>'
-
-    " Auto create and open ropeproject
-    let g:pymode_rope_auto_project = 1
-
-    " Enable autoimport
-    let g:pymode_rope_enable_autoimport = 1
-
-    " Auto generate global cache
-    let g:pymode_rope_autoimport_generate = 1
-
-    let g:pymode_rope_autoimport_underlineds = 0
-
-    let g:pymode_rope_codeassist_maxfixes = 10
-
-    let g:pymode_rope_sorted_completions = 1
-
-    let g:pymode_rope_extended_complete = 1
-
-    let g:pymode_rope_autoimport_modules = ["os","shutil","datetime"]
-
-    let g:pymode_rope_confirm_saving = 1
-
-    let g:pymode_rope_global_prefix = "<C-x>p"
-
-    let g:pymode_rope_local_prefix = "<C-c>r"
-
-    let g:pymode_rope_vim_completion = 1
-
-    let g:pymode_rope_guess_project = 1
-
-    let g:pymode_rope_goto_def_newwin = ""
-
-    let g:pymode_rope_always_show_complete_menu = 0
-
-
-Automatically folding of python code
---------------------------------------
-
-Default values: ::
-
-    " Enable python folding
-    let g:pymode_folding = 1
-
-
-Vim python motions and operators
---------------------------------
-
-Default values: ::
-
-    " Enable python objects and motion
-    let g:pymode_motion = 1
-
-
-Virtualenv support
-------------------
-
-Default values: ::
-
-    " Auto fix vim python paths if virtualenv enabled
-    let g:pymode_virtualenv = 1
-
-
-Other stuff
------------
-
-Default values: ::
-
-    " Additional python paths
-    let g:pymode_paths = []
-
-    " Load breakpoints plugin
-    let g:pymode_breakpoint = 1
-
-    " Key for set/unset breakpoint
-    let g:pymode_breakpoint_key = '<leader>b'
-
-    " Autoremove unused whitespaces
-    let g:pymode_utils_whitespaces = 1
-
-    " Enable pymode indentation
-    let g:pymode_indent = 1
-
-    " Set default pymode python options
-    let g:pymode_options = 1
-
-
-Syntax highlight
-----------------
-
-Default values: ::
-
-    " Enable pymode's custom syntax highlighting
-    let g:pymode_syntax = 1
-
-    " Enable all python highlightings
-    let g:pymode_syntax_all = 1
-
-    " Highlight "print" as function
-    let g:pymode_syntax_print_as_function = 0
-
-    " Highlight indentation errors
-    let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-
-    " Highlight trailing spaces
-    let g:pymode_syntax_space_errors = g:pymode_syntax_all
-
-    " Highlight string formatting
-    let g:pymode_syntax_string_formatting = g:pymode_syntax_all
-
-    " Highlight str.format syntax
-    let g:pymode_syntax_string_format = g:pymode_syntax_all
-
-    " Highlight string.Template syntax
-    let g:pymode_syntax_string_templates = g:pymode_syntax_all
-
-    " Highlight doc-tests
-    let g:pymode_syntax_doctests = g:pymode_syntax_all
-
-    " Highlight builtin objects (__doc__, self, etc)
-    let g:pymode_syntax_builtin_objs = g:pymode_syntax_all
-
-    " Highlight builtin functions
-    let g:pymode_syntax_builtin_funcs = g:pymode_syntax_all
-
-    " Highlight exceptions
-    let g:pymode_syntax_highlight_exceptions = g:pymode_syntax_all
-
-    " Highlight equal operator
-    let g:pymode_syntax_highlight_equal_operator = g:pymode_syntax_all
-
-    " Highlight stars operator
-    let g:pymode_syntax_highlight_stars_operator = g:pymode_syntax_all
-
-    " Highlight `self`
-    let g:pymode_syntax_highlight_self = g:pymode_syntax_all
-
-    " For fast machines
-    let g:pymode_syntax_slow_sync = 0
-
-
-Default keys
-============
-
-.. note:: Also you can see vim help ``:help PythonModeKeys``
-
-============== =============
-Keys           Command
-============== =============
-**K**          Show python docs (g:pymode_doc enabled)
--------------- -------------
-**<C-Space>**  Rope autocomplete (g:pymode_rope enabled)
--------------- -------------
-**<C-c>g**     Rope goto definition  (g:pymode_rope enabled)
--------------- -------------
-**<C-c>d**     Rope show documentation  (g:pymode_rope enabled)
--------------- -------------
-**<C-c>f**     Rope find occurrences  (g:pymode_rope enabled)
--------------- -------------
-**<Leader>r**  Run python  (g:pymode_run enabled)
--------------- -------------
-**<Leader>b**  Set, unset breakpoint (g:pymode_breakpoint enabled)
--------------- -------------
-[[             Jump on previous class or function (normal, visual, operator modes)
--------------- -------------
-]]             Jump on next class or function  (normal, visual, operator modes)
--------------- -------------
-[M             Jump on previous class or method (normal, visual, operator modes)
--------------- -------------
-]M             Jump on next class or method (normal, visual, operator modes)
--------------- -------------
-aC C           Select a class. Ex: vaC, daC, dC, yaC, yC, caC, cC (normal, operator modes)
--------------- -------------
-iC             Select inner class. Ex: viC, diC, yiC, ciC (normal, operator modes)
--------------- -------------
-aM M           Select a function or method. Ex: vaM, daM, dM, yaM, yM, caM, cM (normal, operator modes)
--------------- -------------
-iM             Select inner function or method. Ex: viM, diM, yiM, ciM (normal, operator modes)
-============== =============
-
-.. note:: See also ``:help ropevim.txt``
-
-
-Commands
-========
-
-.. note:: Also you can see vim help ``:help PythonModeCommands``
-
-==================== =============
-Command              Description
-==================== =============
-:Pydoc <args>        Show python documentation
--------------------- -------------
-PyLintToggle         Enable, disable pylint
--------------------- -------------
-PyLintCheckerToggle  Toggle code checker (pylint, pyflakes)
--------------------- -------------
-PyLint               Check current buffer
--------------------- -------------
-PyLintAuto           Automatic fix PEP8 errors
--------------------- -------------
-Pyrun                Run current buffer in python
-==================== =============
-
-.. note:: See also ``:help ropevim.txt``
-
-
-F.A.Q.
-======
-
-Rope completion is very slow
-----------------------------
-
-To work rope_ creates a service directory: ``.ropeproject``.
-If ``g:pymode_rope_guess_project`` set (by default) and ``.ropeproject`` in current dir not found, rope scan ``.ropeproject`` on every dir in parent path.
-If rope finded ``.ropeproject`` in parent dirs, rope set project for all child dir and scan may be slow for many dirs and files.
-
-Solutions:
-
-- Disable ``g:pymode_rope_guess_project`` to make rope always create ``.ropeproject`` in current dir.
-- Delete ``.ropeproject`` from dip parent dir to make rope create ``.ropeproject`` in current dir.
-- Press ``<C-x>po`` or ``:RopeOpenProject`` to make force rope create ``.ropeproject`` in current dir.
-
-
-
-Pylint check is very slow
--------------------------
-
-In some projects pylint_ may check slowly, because it also scan imported modules if posible.
-Try use pyflakes_, see ``:h 'pymode_lint_checker'``.
-
-.. note:: You may ``set exrc`` and ``set secure`` in your ``vimrc`` for auto set custom settings from ``.vimrc`` from your projects directories.
-    Example: On Flask projects I automaticly set ``g:pymode_lint_checker = "pyflakes"``, on django ``g:pymode_lint_cheker = "pylint"``
-
-
-OSX cannot import urandom
--------------------------
-
-See: https://groups.google.com/forum/?fromgroups=#!topic/vim_dev/2NXKF6kDONo
-
-The sequence of commands that fixed this: ::
-
-    brew unlink python
-    brew unlink macvim
-    brew remove macvim
-    brew install -v --force macvim
-    brew link macvim
-    brew link python
+Documentation is available in your vim ``:help pymode``
 
 
 Bugtracker
@@ -476,63 +196,172 @@ at https://github.com/klen/python-mode/issues
 Contributing
 ============
 
-See in the `AUTHORS` file.
+* Kirill Klenov (horneds@gmail.com)
+* Bryce Guinta (https://github.com/brycepg)
 
-Development of pylint-mode happens at github: https://github.com/klen/python-mode
+Also see the `AUTHORS` file.
+
+Development of python-mode happens at github:
+https://github.com/klen/python-mode
+
+Please make a pull request to `development` branch and add yourself to
+`AUTHORS`.
+
+Source Links
+===================
+- `doc/pymode.txt
+  <https://github.com/klen/python-mode/blob/develop/doc/pymode.txt>`__
+  -- ``:help pymode``
+- `plugin/pymode.vim
+  <https://github.com/klen/python-mode/blob/develop/plugin/pymode.vim>`__
+  -- python-mode VIM plugin
+- `syntax/python.vim
+  <https://github.com/klen/python-mode/blob/develop/syntax/python.vim>`__
+  -- python-mode ``python.vim`` VIM syntax
+- `syntax/pyrex.vim
+  <https://github.com/klen/python-mode/blob/develop/syntax/pyrex.vim>`__
+  -- ``pyrex.vim`` VIM syntax (pyrex, Cython)
+- `t/
+  <https://github.com/klen/python-mode/tree/develop/t>`__
+  -- ``*.vim`` more python-mode VIM configuration
+- `pymode/
+  <https://github.com/klen/python-mode/tree/develop/pymode>`__
+  -- ``*.py`` -- python-mode Python module
+- `pymode/libs/
+  <https://github.com/klen/python-mode/tree/develop/pymode/libs>`__
+  -- ``*.py`` -- `Python Libraries <#python-libraries>`__
+
+
+Python Libraries
+------------------
+Vendored Python modules are located
+mostly in
+`pymode/libs/ <https://github.com/klen/python-mode/tree/develop/pymode/libs>`__.
+
+
+======
+rope
+======
+| PyPI: https://pypi.python.org/pypi/rope
+| Src: https://github.com/python-rope/rope
+| Docs: https://github.com/python-rope/rope/blob/master/docs/overview.rst
+| Docs: https://github.com/python-rope/rope/blob/master/docs/library.rst
+
+========================
+ropemode
+========================
+| PyPI: https://pypi.python.org/pypi/ropemode
+| Src: https://github.com/python-rope/ropemode
+
+=========
+ropevim
+=========
+| PyPI: https://pypi.python.org/pypi/ropevim
+| Src: https://github.com/python-rope/ropevim
+| Docs: https://github.com/python-rope/ropevim/blob/master/doc/ropevim.txt
+
+=======
+pylama
+=======
+| PyPI: https://pypi.python.org/pypi/pylama
+| Src: https://github.com/klen/pylama
+
+========
+pylint
+========
+| PyPI: https://pypi.python.org/pypi/pylint
+| Src: https://bitbucket.org/logilab/pylint
+| Homepage: http://www.pylint.org/
+| Docs: http://docs.pylint.org/
+| Docs: http://docs.pylint.org/message-control.html
+| Docs: http://docs.pylint.org/faq.html#message-control
+| ErrCodes: http://pylint-messages.wikidot.com/all-codes
+| ErrCodes: http://pylint-messages.wikidot.com/all-messages
+
+==========
+pyflakes
+==========
+| PyPI: https://pypi.python.org/pypi/pyflakes
+| Src: https://github.com/pyflakes/pyflakes
+| ErrCodes: https://flake8.readthedocs.org/en/latest/warnings.html
+
+======
+pep8
+======
+| PyPI: https://pypi.python.org/pypi/pep8
+| Src: http://github.com/jcrocholl/pep8
+| PEP 8: http://www.python.org/dev/peps/pep-0008/
+| PEP 8: http://legacy.python.org/dev/peps/pep-0008/
+| Docs: https://pep8.readthedocs.org/en/latest/
+| Docs: https://pep8.readthedocs.org/en/latest/intro.html#configuration
+| ErrCodes: https://pep8.readthedocs.org/en/latest/intro.html#error-codes
+
+=========
+autopep8
+=========
+| PyPI: https://pypi.python.org/pypi/autopep8
+| Src: https://github.com/hhatto/autopep8
+
+=======
+pep257
+=======
+| PyPI: https://pypi.python.org/pypi/pep257
+| Src: http://github.com/GreenSteam/pep257
+| Docs: https://pep257.readthedocs.org/en/latest/
+| PEP 257: http://www.python.org/dev/peps/pep-0257/
+| ErrCodes: https://pep257.readthedocs.org/en/latest/error_codes.html
+
+=======
+mccabe
+=======
+| PyPI: https://pypi.python.org/pypi/mccabe
+| Src: https://github.com/flintwork/mccabe
+| Docs: https://en.wikipedia.org/wiki/Cyclomatic_complexity
+
+
+Vim Libraries
+---------------
+Vendored Vim modules are located mostly in ``t/``.
+
+======================
+Python syntax for vim
+======================
+| Src: http://www.hlabs.spb.ru/vim/python.vim
+
+
+=====================
+PEP8 VIM indentation
+=====================
+| Src: http://github.com/hynek/vim-python-pep8-indent
+
 
 
 Copyright
 =========
 
-Copyright © 2013 Kirill Klenov (klen_)
-
-    **Rope**
-        Copyright (C) 2006-2010 Ali Gholami Rudi
-
-        Copyright (C) 2009-2010 Anton Gritsay
-
-    **Pylint**
-        Copyright (C) 2003-2011 LOGILAB S.A. (Paris, FRANCE).
-        http://www.logilab.fr/
-
-    **Pyflakes**:
-        Copyright (c) 2005 Divmod, Inc.
-        http://www.divmod.com/
-
-    **PEP8**
-        Copyright (C) 2006 Johann C. Rocholl <johann@rocholl.net>
-        http://github.com/jcrocholl/pep8
-
-    **autopep8**:
-        Copyright (c) 2012 hhatto <hhatto.jp@gmail.com>
-        https://github.com/hhatto/autopep8
-
-    **Python syntax for vim**
-        Copyright (c) 2010 Dmitry Vasiliev
-        http://www.hlabs.spb.ru/vim/python.vim
-
-    **PEP8 VIM indentation**
-        Copyright (c) 2012 Hynek Schlawack <hs@ox.cx>
-        http://github.com/hynek/vim-python-pep8-indent
-
+Copyright © 2013-2015 Kirill Klenov (klen_)
 
 License
 =======
 
 Licensed under a `GNU lesser general public license`_.
 
-If you like this plugin, you can send me postcard :)
-My address is here: "Russia, 143401, Krasnogorsk, Shkolnaya 1-19" to "Kirill Klenov".
+If you like this plugin, I would very appreciated if you kindly send me a postcard :)
+My address is here: "Russia, 143500, MO, Istra, pos. Severny 8-3" to "Kirill Klenov".
 **Thanks for support!**
 
-
 .. _GNU lesser general public license: http://www.gnu.org/copyleft/lesser.html
-.. _klen: http://klen.github.com/
-.. _pylint: http://www.logilab.org/857
-.. _pyflakes: http://pypi.python.org/pypi/pyflakes
-.. _rope: http://rope.sourceforge.net/
+.. _klen: https://klen.github.com/
 .. _pydoc: http://docs.python.org/library/pydoc.html
 .. _pathogen: https://github.com/tpope/vim-pathogen
-.. _pep8: http://pypi.python.org/pypi/pep8
-.. _mccabe: http://en.wikipedia.org/wiki/Cyclomatic_complexity
+.. _rope_: https://pypi.python.org/pypi/rope
+.. _pylama_: https://github.com/klen/pylama
+.. _pylint_: https://bitbucket.org/logilab/pylint
+.. _pyflakes_: https://pypi.python.org/pypi/pyflakes
+.. _autopep8_: https://github.com/hhatto/autopep8
+.. _pep257_: http://github.com/GreenSteam/pep257
+.. _mccabe_: https://github.com/flintwork/mccabe
+.. _pythonvim: http://www.hlabs.spb.ru/vim/python.vim
+.. _pep8_: http://github.com/jcrocholl/pep8
+.. _pep8indent: http://github.com/hynek/vim-python-pep8-indent
 .. |logo| image:: https://raw.github.com/klen/python-mode/develop/logo.png
