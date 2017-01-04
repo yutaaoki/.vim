@@ -6,8 +6,9 @@ set tabstop=2
 set shiftwidth=2
 set number
 set autoindent
-syntax on
-filetype on
 filetype plugin indent on
+syntax on
 
-let g:pymode_lint_ignore="E501,E302"
+let g:pymode_lint_checkers = ['pyflakes']
+let g:pymode_lint_ignore="E501,E302,E265"
+let g:pymode_warnings = 1
